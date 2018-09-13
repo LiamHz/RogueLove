@@ -8,8 +8,8 @@ screenWidth = love.graphics.getWidth()
 screenHeight = love.graphics.getHeight()
 
 -- gameBoard Dimensions
-gameBoardHeight = 10
-gameBoardWidth = 10
+gameBoardHeight = 20
+gameBoardWidth = 20
 
 -- Store game board details
 gameBoard = {}
@@ -19,9 +19,13 @@ gameActors = {}
 
 -- END GLOBAL VARIABLES
 
+-- Tile spritesheet dimensions
+local tileHeight = 16
+local tileWidth = 16
 
 -- Image storage
 local playerImg = nil
+local tiles = {}
 
 -- Import actor class
 local class = require 'actor'
@@ -43,12 +47,30 @@ local e4 = Actor:new('snake', 10, 1, 4, 1)
 userInput = nil
 
 function love.load(arg)
+    -- Actors are not pixel art
+    love.graphics.setDefaultFilter('linear', 'linear', 0)
     player.img = love.graphics.newImage('assets/panda.png')
 
-    imgWidth = player.img:getWidth()
-    imgHeight = player.img:getHeight()
-    imgWidthScaleFactor = 1 / imgWidth * screenWidth / gameBoardWidth
-    imgHeightScaleFactor = 1 / imgHeight * screenHeight / gameBoardHeight
+    -- Tiles are pixel art
+    love.graphics.setDefaultFilter('nearest', 'nearest', 0)
+
+    -- Choose tile sprite sheet
+    if debug then
+        tileSheet = love.graphics.newImage('assets/roguelikeSheet_magenta.png')
+    else
+        tileSheet = love.graphics.newImage('assets/roguelikeSheet_transparent.png')
+    end
+
+    tile1 = love.graphics.newQuad(6 * (tileWidth + 1) - tileWidth - 1, 0, tileHeight, tileWidth, tileSheet:getDimensions())
+    tile2 = love.graphics.newQuad(7 * (tileWidth + 1) - tileWidth - 1, 0, tileHeight, tileWidth, tileSheet:getDimensions())
+
+    actorWidth = player.img:getWidth()
+    actorHeight = player.img:getHeight()
+    actorWidthScaleFactor = 1 / actorWidth * screenWidth / gameBoardWidth
+    actorHeightScaleFactor = 1 / actorHeight * screenHeight / gameBoardHeight
+
+    tileWidthScaleFactor = 1 / tileWidth * screenWidth / gameBoardWidth
+    tileHeightScaleFactor = 1 / tileHeight * screenHeight / gameBoardHeight
 end
 
 function love.keypressed(key)
@@ -65,13 +87,50 @@ function love.keypressed(key)
     end
 end
 
-function love.draw(dt)
-    -- TODO make a checkerboard pattern of tiles
+-- for tile=1, 16 do--tile in ipairs(gameBoard) do
+--     if (tile % 2 == 1) and (math.floor((tile - 1) / gameBoardWidth) % 2 == 0) then
+--         print(tile)
+--     end
+-- end
 
+function drawTileCheckerboard()
+    for tile in ipairs(gameBoard) do
+
+        -- -- Color one odd row
+        if (tile % 2 == 0) and (math.floor((tile - 1) / gameBoardWidth) % 2 == 0) then
+            love.graphics.draw(tileSheet, tile1, tileWidth * tileWidthScaleFactor * (tile % (gameBoardWidth) + 1),
+                                tileHeight * tileHeightScaleFactor * math.ceil(tile / gameBoardWidth - 1),
+                                0, tileWidthScaleFactor, tileHeightScaleFactor)
+
+        -- Color one even row
+        elseif (tile % 2 == 1) and (math.ceil(tile / gameBoardWidth) % 2 == 0) then
+            love.graphics.draw(tileSheet, tile1, tileWidth * tileWidthScaleFactor * (tile % (gameBoardWidth) - 1),
+                                tileHeight * tileHeightScaleFactor * math.ceil(tile / gameBoardWidth - 1),
+                                0, tileWidthScaleFactor, tileHeightScaleFactor)
+
+        -- Color two odd row
+        elseif (tile % 2 == 1) and (math.floor((tile - 1) / gameBoardWidth) % 2 == 0) then
+            love.graphics.draw(tileSheet, tile2, tileWidth * tileWidthScaleFactor * (tile % (gameBoardWidth) - 1),
+                                tileHeight * tileHeightScaleFactor * math.ceil(tile / gameBoardWidth - 1),
+                                0, tileWidthScaleFactor, tileHeightScaleFactor)
+        -- color two even row
+        elseif (tile % 2 == 0) and (math.ceil(tile / gameBoardWidth) % 2 == 0) then
+            love.graphics.draw(tileSheet, tile2, tileWidth * tileWidthScaleFactor * (tile % (gameBoardWidth) + 1),
+                                tileHeight * tileHeightScaleFactor * math.ceil(tile / gameBoardWidth - 1),
+                                0, tileWidthScaleFactor, tileHeightScaleFactor)
+        end
+    end
+end
+
+function love.draw(dt)
+    -- Draw checkerboard of tiles
+    drawTileCheckerboard()
+
+    -- Draw all game actors
     for actor in ipairs(gameActors) do
         love.graphics.draw(gameActors[actor].img,
                             (gameActors[actor].xPos - 1) * screenWidth / gameBoardWidth,
                             (gameActors[actor].yPos - 1) * screenHeight / gameBoardHeight,
-                            0, imgWidthScaleFactor, imgHeightScaleFactor)
+                            0, actorWidthScaleFactor, actorHeightScaleFactor)
     end
 end
