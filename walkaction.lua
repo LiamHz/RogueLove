@@ -12,16 +12,16 @@ function WalkAction:walk(xPos, yPos, input)
 
     -- Player movement
     if input ~= nil then
-        if input == 'up' then
+        if (input == 'up') and (yPos > 1) then
             yPos = yPos - 1
-        elseif input == 'down' then
+        elseif (input == 'down') and (yPos < gameBoardHeight) then
             yPos = yPos + 1
-        elseif input == 'left' then
+        elseif (input == 'left') and (xPos > 1) then
             xPos = xPos - 1
-        elseif input == 'right' then
+        elseif (input == 'right') and (xPos < gameBoardWidth) then
             xPos = xPos + 1
         else
-            print("Invalid userInput for walk()")
+            print("Invalid userInput for walk(). Received: " .. input)
         end
 
     -- Random enemy movement

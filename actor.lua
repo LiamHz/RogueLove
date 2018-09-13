@@ -32,13 +32,13 @@ end
 
 -- TODO Make player a inherited class of Actor
 -- TODO Make an enemy that moves towards player
+-- TODO Add attack action for Actors, Players, and Enemies
 -- Keep initialize function same, change action choice logic
 -- Use same command actions
 
 function Actor:takeAction()
     self.energy = self.energy + 1
     if self.energy >= self.energyThreshold then         -- Turn speed system
-        print(self.id)
         self.xPos, self.yPos = walk:walk(self.xPos, self.yPos, self.input)
         self.energy = self.energy - self.energyThreshold
     end
