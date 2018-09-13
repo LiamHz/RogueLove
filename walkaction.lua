@@ -22,29 +22,39 @@ function WalkAction:walk(xPos, yPos, input)
             xPos = xPos + 1
         else
             print("Invalid userInput for walk(). Received: " .. input)
+            local canMove = 'playerCannotMove'
+            return canMove
         end
 
     -- Random enemy movement
     elseif input == nil then
-        rand = math.random()
+        local rand = love.math.random()
 
-        -- TODO Check for obstacle collision
+        -- Tile index is a single number from 0 to GB Height * GB Width
+        local tileIndex = xPos + (yPos - 1) * gameBoardWidth
+
         if (yPos > 1) and (rand < 0.25) then
-            -- if (gameBoard[xPos - yPos * gameBoardWidth] > 0) then          -- Move up
+            -- Check for obstacle collision; gameBoard index <= 1
+            -- indicates presence of obstacle
+            if (gameBoard[tileIndex - gameBoardWidth] == 0) then
+                -- Move up
                 yPos = yPos - 1
-            -- end
+            end
         elseif (yPos < gameBoardHeight) and (rand < 0.5) then
-            -- if (gameBoard[xPos + yPos * gameBoardWidth * 2] > 0) then      -- Move down
+            -- Move down
+            if (gameBoard[tileIndex + gameBoardWidth] == 0) then
                 yPos = yPos + 1
-            -- end
+            end
         elseif (xPos > 1) and (rand < 0.75)  then
-            -- if (gameBoard[xPos - 1 + yPos * gameBoardWidth] > 0) then      -- Move left
+            if (gameBoard[tileIndex - 1] == 0) then
+                -- Move left
                 xPos = xPos - 1
-            -- end
+            end
         elseif (xPos < gameBoardWidth) then
-            -- if (gameBoard[xPos + 1 + yPos * gameBoardWidth] > 0) then      -- Move right
+            if (gameBoard[tileIndex + 1] == 0) then
+                -- Move right
                 xPos = xPos + 1
-            -- end
+            end
         else
             print("Enemy couldn't move")
         end

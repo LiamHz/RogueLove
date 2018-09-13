@@ -8,10 +8,16 @@ screenWidth = love.graphics.getWidth()
 screenHeight = love.graphics.getHeight()
 
 -- gameBoard Dimensions
-gameBoardHeight = 20
-gameBoardWidth = 20
+gameBoardHeight = 4
+gameBoardWidth = 4
 
 -- Store game board details
+-- INDEX VALUES
+-- -2 = Door
+-- -1 = Wall
+-- 0 = Empty tile
+-- 1 = Enemy
+-- 5 = Player
 gameBoard = {}
 
 -- Array of all game actors
@@ -39,14 +45,16 @@ end
 -- Create game actors
 local player = Actor:new('player', 3, 3, 1, 3)
 local e1 = Actor:new('snake', 1, 1, 1, 1)
-local e2 = Actor:new('snake', 1, 10, 2, 1)
-local e3 = Actor:new('snake', 10, 10, 3, 1)
-local e4 = Actor:new('snake', 10, 1, 4, 1)
+local e2 = Actor:new('snake', 1, 4, 1, 1)
+local e3 = Actor:new('snake', 4, 4, 1, 1)
+local e4 = Actor:new('snake', 4, 1, 1, 1)
 
 -- Current user input
 userInput = nil
 
 function love.load(arg)
+    love.math.random()
+
     -- Actors are not pixel art
     love.graphics.setDefaultFilter('linear', 'linear', 0)
     player.img = love.graphics.newImage('assets/panda.png')
@@ -73,6 +81,7 @@ function love.load(arg)
     tileHeightScaleFactor = 1 / tileHeight * screenHeight / gameBoardHeight
 end
 
+-- User input
 function love.keypressed(key)
     -- Quit game
     if key == 'escape' then
@@ -82,16 +91,16 @@ function love.keypressed(key)
     if key == 'up' or key == 'down' or key == 'left' or key == 'right' then
         player.input = key
         for actor in ipairs(gameActors) do
-            gameActors[actor]:takeAction()
+            -- If player can't move exit action loop for new input
+            if gameActors[actor]:takeAction() == 'playerCannotMove' then
+                break
+            end
+        end
+        for i in ipairs(gameBoard) do
+            print(gameBoard[i])
         end
     end
 end
-
--- for tile=1, 16 do--tile in ipairs(gameBoard) do
---     if (tile % 2 == 1) and (math.floor((tile - 1) / gameBoardWidth) % 2 == 0) then
---         print(tile)
---     end
--- end
 
 function drawTileCheckerboard()
     for tile in ipairs(gameBoard) do
