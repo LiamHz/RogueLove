@@ -1,9 +1,8 @@
 -- Import OOP library middleclass
 local class = require 'middleclass'
 
--- Command actions
-local action1 = require 'walkaction'
-local walk = WalkAction:new()
+local playerDecision = require 'playerDecision'
+local PlayerDecision = PlayerDecision:new()
 
 -- Inheritance
 local parent = require 'actor'
@@ -30,13 +29,13 @@ function Player:takeAction()
         --     return 'playerCannotMove'
         -- end
 
-        self.xPos, self.yPos = walk:walk(self.xPos, self.yPos, self.input)
+        self.xPos, self.yPos = PlayerDecision:getDecision(self.xPos, self.yPos, self.input)
 
         -- Mark previous square as empty
         gameBoard[pastXPos + (pastYPos - 1) * gameBoardWidth] = 0
 
         -- Update gameBoard with position of game actor
-        gameBoard[self.xPos + (self.yPos - 1) * gameBoardWidth] = 1
+        gameBoard[self.xPos + (self.yPos - 1) * gameBoardWidth] = 'player'
 
         -- Subtract actor energy
         self.energy = self.energy - self.energyThreshold
