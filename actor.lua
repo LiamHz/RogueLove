@@ -1,11 +1,6 @@
 -- Import OOP library middleclass
 local class = require 'middleclass'
 
--- Command actions
-local action1 = require 'walkaction'
-local walk = WalkAction:new()
-
-
 Actor = class('Actor')
 
 id = 0
@@ -22,7 +17,4 @@ function Actor:initialize(actorType, xPos, yPos, energyThreshold, hp)
     self.img = nil
 end
 
--- TODO Make an enemy that moves towards player
--- TODO Add attack action for Actors, Players, and Enemies
--- Keep initialize function same, change action choice logic
--- Use same command actions
+-- TODO Make a new type of enemy that always moves towards player (energyThreshold = 2)

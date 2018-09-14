@@ -8,7 +8,6 @@ function WalkAction:initialize()
 end
 
 function WalkAction:walk(xPos, yPos, input)
-
     if (input == 'up') and (yPos > 1) then
         yPos = yPos - 1
     elseif (input == 'down') and (yPos < gameBoardHeight) then
