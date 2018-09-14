@@ -38,6 +38,8 @@ local actorClass = require 'actor'
 local playerClass = require 'player'
 local enemyClass = require 'enemy'
 
+local checkerboardClass = require 'drawTileCheckerboard'
+
 -- Populate and empty gameBoard
 for i = 1, gameBoardWidth * gameBoardHeight do
     gameBoard[i] = 0
@@ -63,18 +65,20 @@ function love.load(arg)
 
     -- Tiles are pixel art
     love.graphics.setDefaultFilter('nearest', 'nearest', 0)
-    tileSheet = love.graphics.newImage('assets/roguelikeSheet_transparent.png')
+    local tileSheet = love.graphics.newImage('assets/roguelikeSheet_transparent.png')
 
-    tile1 = love.graphics.newQuad(6 * (tileWidth + 1) - tileWidth - 1, 0, tileHeight, tileWidth, tileSheet:getDimensions())
-    tile2 = love.graphics.newQuad(7 * (tileWidth + 1) - tileWidth - 1, 0, tileHeight, tileWidth, tileSheet:getDimensions())
+    local tile1 = love.graphics.newQuad(6 * (tileWidth + 1) - tileWidth - 1, 0, tileHeight, tileWidth, tileSheet:getDimensions())
+    local tile2 = love.graphics.newQuad(7 * (tileWidth + 1) - tileWidth - 1, 0, tileHeight, tileWidth, tileSheet:getDimensions())
 
-    actorWidth = player.img:getWidth()
-    actorHeight = player.img:getHeight()
+    local actorWidth = player.img:getWidth()
+    local actorHeight = player.img:getHeight()
     actorWidthScaleFactor = 1 / actorWidth * screenWidth / gameBoardWidth
     actorHeightScaleFactor = 1 / actorHeight * screenHeight / gameBoardHeight
 
-    tileWidthScaleFactor = 1 / tileWidth * screenWidth / gameBoardWidth
-    tileHeightScaleFactor = 1 / tileHeight * screenHeight / gameBoardHeight
+    local tileWidthScaleFactor = 1 / tileWidth * screenWidth / gameBoardWidth
+    local tileHeightScaleFactor = 1 / tileHeight * screenHeight / gameBoardHeight
+
+    DrawTileCheckerboard = DrawTileCheckerboard:new(tileSheet, tile1, tile2, tileHeight, tileWidth, tileHeightScaleFactor, tileWidthScaleFactor)
 end
 
 -- User input
@@ -95,38 +99,14 @@ function love.keypressed(key)
     end
 end
 
-function drawTileCheckerboard()
-    for tile in ipairs(gameBoard) do
-
-        -- -- Color one odd row
-        if (tile % 2 == 0) and (math.floor((tile - 1) / gameBoardWidth) % 2 == 0) then
-            love.graphics.draw(tileSheet, tile1, tileWidth * tileWidthScaleFactor * (tile % (gameBoardWidth) + 1),
-                                tileHeight * tileHeightScaleFactor * math.ceil(tile / gameBoardWidth - 1),
-                                0, tileWidthScaleFactor, tileHeightScaleFactor)
-
-        -- Color one even row
-        elseif (tile % 2 == 1) and (math.ceil(tile / gameBoardWidth) % 2 == 0) then
-            love.graphics.draw(tileSheet, tile1, tileWidth * tileWidthScaleFactor * (tile % (gameBoardWidth) - 1),
-                                tileHeight * tileHeightScaleFactor * math.ceil(tile / gameBoardWidth - 1),
-                                0, tileWidthScaleFactor, tileHeightScaleFactor)
-
-        -- Color two odd row
-        elseif (tile % 2 == 1) and (math.floor((tile - 1) / gameBoardWidth) % 2 == 0) then
-            love.graphics.draw(tileSheet, tile2, tileWidth * tileWidthScaleFactor * (tile % (gameBoardWidth) - 1),
-                                tileHeight * tileHeightScaleFactor * math.ceil(tile / gameBoardWidth - 1),
-                                0, tileWidthScaleFactor, tileHeightScaleFactor)
-        -- color two even row
-        elseif (tile % 2 == 0) and (math.ceil(tile / gameBoardWidth) % 2 == 0) then
-            love.graphics.draw(tileSheet, tile2, tileWidth * tileWidthScaleFactor * (tile % (gameBoardWidth) + 1),
-                                tileHeight * tileHeightScaleFactor * math.ceil(tile / gameBoardWidth - 1),
-                                0, tileWidthScaleFactor, tileHeightScaleFactor)
-        end
-    end
-end
-
 function love.draw(dt)
+    -- TODO Display player health in top right
+    -- TODO make game baord display less than full screen
+    -- TODO Make movable camera
+    -- TODO Make num grid squares displayed seperate from grid width
+
     -- Draw checkerboard of tiles
-    drawTileCheckerboard()
+    DrawTileCheckerboard:drawCheckerboard()
 
     -- Draw all game actors
     for actor in ipairs(gameActors) do
