@@ -8,8 +8,8 @@ screenWidth = love.graphics.getWidth()
 screenHeight = love.graphics.getHeight()
 
 -- gameBoard Dimensions
-gameBoardHeight = 4
-gameBoardWidth = 4
+gameBoardHeight = 8
+gameBoardWidth = 8
 
 -- Store game board details
 -- INDEX VALUES
@@ -34,7 +34,9 @@ local playerImg = nil
 local tiles = {}
 
 -- Import actor class
-local class = require 'actor'
+local actorClass = require 'actor'
+local playerClass = require 'player'
+local enemyClass = require 'enemy'
 
 -- Populate and empty gameBoard
 for i = 1, gameBoardWidth * gameBoardHeight do
@@ -43,11 +45,11 @@ end
 
 
 -- Create game actors
-local player = Actor:new('player', 3, 3, 1, 3)
-local e1 = Actor:new('snake', 1, 1, 1, 1)
-local e2 = Actor:new('snake', 1, 4, 1, 1)
-local e3 = Actor:new('snake', 4, 4, 1, 1)
-local e4 = Actor:new('snake', 4, 1, 1, 1)
+local player = Player:new('player', 3, 3, 1, 3)
+local e1 = Enemy:new('snake', 1, 1, 1, 1)
+local e2 = Enemy:new('snake', 1, 4, 1, 1)
+local e3 = Enemy:new('snake', 4, 4, 1, 1)
+local e4 = Enemy:new('snake', 4, 1, 1, 1)
 
 -- Current user input
 userInput = nil
@@ -61,13 +63,7 @@ function love.load(arg)
 
     -- Tiles are pixel art
     love.graphics.setDefaultFilter('nearest', 'nearest', 0)
-
-    -- Choose tile sprite sheet
-    if debug then
-        tileSheet = love.graphics.newImage('assets/roguelikeSheet_magenta.png')
-    else
-        tileSheet = love.graphics.newImage('assets/roguelikeSheet_transparent.png')
-    end
+    tileSheet = love.graphics.newImage('assets/roguelikeSheet_transparent.png')
 
     tile1 = love.graphics.newQuad(6 * (tileWidth + 1) - tileWidth - 1, 0, tileHeight, tileWidth, tileSheet:getDimensions())
     tile2 = love.graphics.newQuad(7 * (tileWidth + 1) - tileWidth - 1, 0, tileHeight, tileWidth, tileSheet:getDimensions())
@@ -92,12 +88,9 @@ function love.keypressed(key)
         player.input = key
         for actor in ipairs(gameActors) do
             -- If player can't move exit action loop for new input
-            if gameActors[actor]:takeAction() == 'playerCannotMove' then
-                break
-            end
-        end
-        for i in ipairs(gameBoard) do
-            print(gameBoard[i])
+            gameActors[actor]:takeAction()-- == 'playerCannotMove' then
+            --     break
+            -- end
         end
     end
 end
