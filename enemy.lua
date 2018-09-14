@@ -1,11 +1,8 @@
 -- Import OOP library middleclass
 local class = require 'middleclass'
-local decision = require 'randomWalkDecision'
-local RandomWalkDecision = RandomWalkDecision:new()
 
--- Command actions
-local action1 = require 'walkaction'
-local walk = WalkAction:new()
+local enemyActionDecision = require 'enemyAI'
+local enemyAI = EnemyAI:new()
 
 -- Inheritance
 local parent = require 'actor'
@@ -33,17 +30,13 @@ function Enemy:takeAction()
         -- Store current xPos and yPos
         pastXPos, pastYPos = self.xPos, self.yPos
 
-        -- Get random direction to walk to
-        local input = RandomWalkDecision:getRandomDirection(self.xPos, self.yPos)
-
-        -- Walk that direction
-        self.xPos, self.yPos = walk:walk(self.xPos, self.yPos, input)
+        self.xPos, self.yPos = enemyAI:getDecision(self.xPos, self.yPos)
 
         -- Mark previous square as empty
         gameBoard[pastXPos + (pastYPos - 1) * gameBoardWidth] = 0
 
         -- Update gameBoard with position of game actor
-        gameBoard[self.xPos + (self.yPos - 1) * gameBoardWidth] = 1
+        gameBoard[self.xPos + (self.yPos - 1) * gameBoardWidth] = 'enemy'
 
         -- Subtract actor energy
         self.energy = self.energy - self.energyThreshold
