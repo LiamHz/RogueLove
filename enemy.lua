@@ -21,6 +21,8 @@ function Enemy:initialize(actorType, xPos, yPos, energyThreshold, hp)
     id = id + 1
 end
 
+-- TODO Display enemy health if it is less than max
+
 function Enemy:takeAction()
     self.energy = self.energy + 1
 
@@ -30,13 +32,16 @@ function Enemy:takeAction()
         -- Store current xPos and yPos
         pastXPos, pastYPos = self.xPos, self.yPos
 
-        self.xPos, self.yPos = enemyAI:getDecision(self.xPos, self.yPos)
+        self.xPos, self.yPos = enemyAI:getDecision(self.xPos, self.yPos, self.damage)
 
         -- Mark previous square as empty
         gameBoard[pastXPos + (pastYPos - 1) * gameBoardWidth] = 0
 
         -- Update gameBoard with position of game actor
         gameBoard[self.xPos + (self.yPos - 1) * gameBoardWidth] = 'enemy'
+
+        -- Update actor's tileIndexPosition
+        self.tileIndexPos = self.xPos + (self.yPos - 1) * gameBoardWidth
 
         -- Subtract actor energy
         self.energy = self.energy - self.energyThreshold

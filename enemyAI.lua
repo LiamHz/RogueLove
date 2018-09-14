@@ -12,30 +12,31 @@ function EnemyAI:initialize()
     self.name = 'EnemyAI'
 end
 
-function EnemyAI:getDecision(xPos, yPos)
+function EnemyAI:getDecision(xPos, yPos, damage)
 
     -- Tile index is a single number from 0 to GB Height * GB Width
     local tileIndex = xPos + (yPos - 1) * gameBoardWidth
     local direction = nil
 
     if (gameBoard[tileIndex - gameBoardWidth] == 'player') then
-        direction = 'up'
+        targetPos = tileIndex - gameBoardWidth
+        AttackAction:attack(targetPos, damage)
     elseif (gameBoard[tileIndex + gameBoardWidth] == 'player') then
-        direction = 'down'
+        targetPos = tileIndex + gameBoardWidth
+        AttackAction:attack(targetPos, damage)
     elseif (gameBoard[tileIndex - 1] == 'player') then
-        direction = 'left'
+        targetPos = tileIndex - 1
+        AttackAction:attack(targetPos, damage)
     elseif (gameBoard[tileIndex + 1] == 'player') then
-        direction = 'right'
+        targetPos = tileIndex + 1
+        AttackAction:attack(targetPos, damage)
     else
         -- Get random direction to walk to
         local input = RandomWalkDecision:getRandomDirection(xPos, yPos)
 
         -- Walk that direction
         xPos, yPos = WalkAction:walk(xPos, yPos, input)
-
-        return xPos, yPos
     end
-
-    AttackAction:attack(direction)
+    
     return xPos, yPos
 end

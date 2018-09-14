@@ -15,6 +15,8 @@ function Actor:initialize(actorType, xPos, yPos, energyThreshold, hp)
     self.input = nil
     self.id = id
     self.img = nil
+    self.damage = 1
+    self.tileIndexPos = self.xPos + (self.yPos - 1) * gameBoardWidth
 end
 
--- TODO Make a new type of enemy that always moves towards player (energyThreshold = 2)
+-- TODO Make a new enemy child that always moves towards player using BFS (energyThreshold = 2)

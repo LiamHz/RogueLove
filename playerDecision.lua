@@ -11,27 +11,26 @@ function PlayerDecision:initialize()
     self.name = 'PlayerDecision'
 end
 
-function PlayerDecision:getDecision(xPos, yPos, input)
+function PlayerDecision:getDecision(xPos, yPos, damage, input)
 
     -- Tile index is a single number from 0 to GB Height * GB Width
     local tileIndex = xPos + (yPos - 1) * gameBoardWidth
 
     if (input == 'up') and (gameBoard[tileIndex - gameBoardWidth] == 'enemy') then
-        direction = 'up'
+        targetPos = tileIndex - gameBoardWidth
+        AttackAction:attack(targetPos, damage)
     elseif (input == 'down') and (gameBoard[tileIndex + gameBoardWidth] == 'enemy') then
-        direction = 'down'
+        targetPos = tileIndex + gameBoardWidth
+        AttackAction:attack(targetPos, damage)
     elseif (input == 'left') and (gameBoard[tileIndex - 1] == 'enemy') then
-        direction = 'left'
+        targetPos = tileIndex - 1
+        AttackAction:attack(targetPos, damage)
     elseif (input == 'right') and (gameBoard[tileIndex + 1] == 'enemy') then
-        direction = 'right'
+        targetPos = tileIndex + 1
+        AttackAction:attack(targetPos, damage)
     else
-
         -- Walk the direction of input
         xPos, yPos = WalkAction:walk(xPos, yPos, input)
-
-        return xPos, yPos
     end
-
-    AttackAction:attack(direction)
     return xPos, yPos
 end

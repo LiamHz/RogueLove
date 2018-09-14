@@ -29,13 +29,16 @@ function Player:takeAction()
         --     return 'playerCannotMove'
         -- end
 
-        self.xPos, self.yPos = PlayerDecision:getDecision(self.xPos, self.yPos, self.input)
+        self.xPos, self.yPos = PlayerDecision:getDecision(self.xPos, self.yPos, self.damage, self.input)
 
         -- Mark previous square as empty
         gameBoard[pastXPos + (pastYPos - 1) * gameBoardWidth] = 0
 
         -- Update gameBoard with position of game actor
         gameBoard[self.xPos + (self.yPos - 1) * gameBoardWidth] = 'player'
+
+        -- Update actor's tileIndexPosition
+        self.tileIndexPos = self.xPos + (self.yPos - 1) * gameBoardWidth
 
         -- Subtract actor energy
         self.energy = self.energy - self.energyThreshold

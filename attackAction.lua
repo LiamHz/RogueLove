@@ -7,17 +7,23 @@ function AttackAction:initialize()
     self.name = 'AttackAction'
 end
 
-function AttackAction:attack(input)
+function AttackAction:attack(targetPos, damage)
 
-    -- TODO Subtract health of actor in target square
     -- TODO Visual indicator of health subtraction
-    if input == 'up' then
-        print('Attack Up!')
-    elseif input == 'down' then
-        print('Attack Down!')
-    elseif input == 'left' then
-        print('Attack Left!')
-    elseif input == 'right' then
-        print('Attack Right!')
+
+    for actor in ipairs(gameActors) do
+
+        -- Find target of attack and deal damage
+        if gameActors[actor].tileIndexPos == targetPos then
+            gameActors[actor].hp = gameActors[actor].hp - damage
+            print('Name: ' .. gameActors[actor].actorType .. gameActors[actor].id .. ', HP: ' .. gameActors[actor].hp)
+
+            -- If that actor died, remove them from table of game actors
+            -- And mark that square as empty
+            if gameActors[actor].hp <= 0 then
+                table.remove(gameActors, actor)
+                gameBoard[targetPos] = 0
+            end
+        end
     end
 end
