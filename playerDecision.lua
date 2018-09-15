@@ -30,7 +30,8 @@ function PlayerDecision:getDecision(xPos, yPos, damage, input)
         AttackAction:attack(targetPos, damage)
     else
         -- Walk the direction of input
-        xPos, yPos = WalkAction:walk(xPos, yPos, input)
+        xPos, yPos, actorCannotMove = WalkAction:walk(xPos, yPos, input)
     end
-    return xPos, yPos
+
+    return xPos, yPos, actorCannotMove
 end

@@ -35,8 +35,8 @@ function EnemyAI:getDecision(xPos, yPos, damage)
         local input = RandomWalkDecision:getRandomDirection(xPos, yPos)
 
         -- Walk that direction
-        xPos, yPos = WalkAction:walk(xPos, yPos, input)
+        xPos, yPos, actorCannotMove = WalkAction:walk(xPos, yPos, input)
     end
-    
-    return xPos, yPos
+
+    return xPos, yPos, actorCannotMove
 end

@@ -8,6 +8,8 @@ function WalkAction:initialize()
 end
 
 function WalkAction:walk(xPos, yPos, input)
+    local actorCannotMove = false
+
     if (input == 'up') and (yPos > 1) then
         yPos = yPos - 1
     elseif (input == 'down') and (yPos < gameBoardHeight) then
@@ -16,12 +18,10 @@ function WalkAction:walk(xPos, yPos, input)
         xPos = xPos - 1
     elseif (input == 'right') and (xPos < gameBoardWidth) then
         xPos = xPos + 1
-    elseif (input == 'none') then
-        -- print("Invalid userInput for walk(). Received: " .. input)
-        -- local canMove = 'playerCannotMove'
-        -- return canMove
-        print('No input')
+    else
+        print("Actor cannot move, asking for new input")
+        actorCannotMove = true
     end
 
-    return xPos, yPos
+    return xPos, yPos, actorCannotMove
 end

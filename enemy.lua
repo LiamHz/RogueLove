@@ -32,7 +32,13 @@ function Enemy:takeAction()
         -- Store current xPos and yPos
         pastXPos, pastYPos = self.xPos, self.yPos
 
-        self.xPos, self.yPos = enemyAI:getDecision(self.xPos, self.yPos, self.damage)
+        ::getEnemyDecision::
+
+        self.xPos, self.yPos, actorCannotMove = enemyAI:getDecision(self.xPos, self.yPos, self.damage)
+
+        if actorCannotMove == true then
+            goto getEnemyDecision
+        end
 
         -- Mark previous square as empty
         gameBoard[pastXPos + (pastYPos - 1) * gameBoardWidth] = 0
@@ -46,4 +52,6 @@ function Enemy:takeAction()
         -- Subtract actor energy
         self.energy = self.energy - self.energyThreshold
     end
+
+    return false
 end

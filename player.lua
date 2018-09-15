@@ -29,7 +29,13 @@ function Player:takeAction()
         --     return 'playerCannotMove'
         -- end
 
-        self.xPos, self.yPos = PlayerDecision:getDecision(self.xPos, self.yPos, self.damage, self.input)
+        self.xPos, self.yPos, actorCannotMove = PlayerDecision:getDecision(self.xPos, self.yPos, self.damage, self.input)
+
+        -- Ask for new user input if player couldn't move
+        -- i.e. walked into a wall
+        if actorCannotMove == true then
+            return actorCannotMove
+        end
 
         -- Mark previous square as empty
         gameBoard[pastXPos + (pastYPos - 1) * gameBoardWidth] = 0
@@ -43,4 +49,6 @@ function Player:takeAction()
         -- Subtract actor energy
         self.energy = self.energy - self.energyThreshold
     end
+
+    return false
 end
