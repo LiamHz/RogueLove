@@ -12,6 +12,9 @@ Player = class('Player', Actor)
 function Player:initialize(actorType, xPos, yPos, energyThreshold, hp)
     Actor.initialize(self, actorType, xPos, yPos, energyThreshold, hp)
 
+    -- Mark actor's gameboard square as occupied
+    gameBoard[self.tileIndexPos] = 'player'
+
     -- Add new actor to table of actors
     table.insert(gameActors, self)
     id = id + 1

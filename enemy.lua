@@ -16,6 +16,9 @@ function Enemy:initialize(actorType, xPos, yPos, energyThreshold, hp)
         self.img = love.graphics.newImage('assets/snake.png')
     end
 
+    -- Mark actor's gameboard square as occupied
+    gameBoard[self.tileIndexPos] = 'enemy'
+
     -- Add new actor to table of actors
     table.insert(gameActors, self)
     id = id + 1
