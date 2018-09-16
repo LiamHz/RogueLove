@@ -35,13 +35,13 @@ function PlayerDecision:getDecision(xPos, yPos, damage, input)
         -- Move camera to keep player centered
         if actorCannotMove == false then
             if input == 'up' then
-                Camera:move(0, (-screenHeight - screenOffsetY / 2) / gameBoardDisplayHeight)
+                Camera:move(0, -tileHeight * tileHeightScaleFactor)
             elseif input == 'down' then
-                Camera:move(0, (screenHeight + screenOffsetY / 2) / gameBoardDisplayHeight)
+                Camera:move(0, tileHeight * tileHeightScaleFactor)
             elseif input == 'left' then
-                Camera:move((-screenWidth - screenOffsetX / 2) / gameBoardDisplayWidth, 0)
+                Camera:move(-tileWidth * tileWidthScaleFactor, 0)
             elseif input == 'right' then
-                Camera:move((screenWidth - screenOffsetX / 2)/ gameBoardDisplayWidth, 0)
+                Camera:move(tileWidth * tileWidthScaleFactor, 0)
             end
         end
     end

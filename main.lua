@@ -6,7 +6,6 @@
 -- TODO Visual indicator of attack
 -- TODO Display gameover and make entire board semi-opaque on player death
 -- TODO Initialize camera to center on player
--- TODO Fix camera movement
 
 -- GLOBAL VARIABLES
 -- DO NOT RENAME
@@ -19,6 +18,13 @@ gameBoardWidth = 20
 -- gameBoard Display Dimensions
 gameBoardDisplayHeight = 10
 gameBoardDisplayWidth = 10
+
+-- Tile spritesheet dimensions
+tileHeight = 16
+tileWidth = 16
+
+tileWidthScaleFactor = 0
+tileHeightScaleFactor = 0
 
 fullscreen = true
 
@@ -45,10 +51,6 @@ local debug = true
 local gameBoardScreenDisplayWidth = love.graphics.getWidth()
 local gameBoardScreenDisplayHeight = love.graphics.getHeight()
 
--- Tile spritesheet dimensions
-local tileHeight = 16
-local tileWidth = 16
-
 -- Image storage
 local playerImg = nil
 local tiles = {}
@@ -70,7 +72,7 @@ end
 
 
 -- Create game actors
-local player = Player:new('player', 6, 5, 1, 3)
+local player = Player:new('player', 11, 5, 1, 3)
 local e1 = Enemy:new('snake', 8, 2, 2, 1)
 local e2 = Enemy:new('snake', 10, 4, 2, 1)
 local e3 = Enemy:new('snake', 6, 4, 2, 1)
@@ -115,11 +117,11 @@ function love.load(arg)
 
     local actorWidth = player.img:getWidth()
     local actorHeight = player.img:getHeight()
-    actorWidthScaleFactor = 1 / actorWidth * gameBoardScreenDisplayWidth / gameBoardDisplayWidth
-    actorHeightScaleFactor = 1 / actorHeight * gameBoardScreenDisplayHeight / gameBoardDisplayHeight
+    actorWidthScaleFactor = 1 / actorWidth * (gameBoardScreenDisplayWidth - screenOffsetX) / gameBoardDisplayWidth
+    actorHeightScaleFactor = 1 / actorHeight * (gameBoardScreenDisplayHeight - screenOffsetY) / gameBoardDisplayHeight
 
-    local tileWidthScaleFactor = 1 / tileWidth * gameBoardScreenDisplayWidth / gameBoardDisplayWidth
-    local tileHeightScaleFactor = 1 / tileHeight * gameBoardScreenDisplayHeight / gameBoardDisplayHeight
+    tileWidthScaleFactor = 1 / tileWidth * (gameBoardScreenDisplayWidth - screenOffsetX) / gameBoardDisplayWidth
+    tileHeightScaleFactor = 1 / tileHeight * (gameBoardScreenDisplayHeight - screenOffsetY) / gameBoardDisplayHeight
 
     DrawTileCheckerboard = DrawTileCheckerboard:new(tileSheet, tile1, tile2, tileHeight, tileWidth, tileHeightScaleFactor, tileWidthScaleFactor)
 end
@@ -152,8 +154,8 @@ function love.draw(dt)
     -- Draw all game actors
     for actor in ipairs(gameActors) do
         love.graphics.draw(gameActors[actor].img,
-                            (gameActors[actor].xPos - 1) * gameBoardScreenDisplayWidth / gameBoardDisplayWidth + screenOffsetX / 2,
-                            (gameActors[actor].yPos - 1) * gameBoardScreenDisplayHeight / gameBoardDisplayHeight + screenOffsetY / 2,
+                            (gameActors[actor].xPos - 1) * tileWidth * tileWidthScaleFactor,-- / gameBoardDisplayWidth,
+                            (gameActors[actor].yPos - 1) * tileHeight * tileHeightScaleFactor + screenOffsetY / 2,--  / gameBoardDisplayHeight,
                             0, actorWidthScaleFactor, actorHeightScaleFactor)
     end
 
@@ -164,13 +166,18 @@ function love.draw(dt)
     love.graphics.setColor(0, 0, 0, 10)
     -- Left side
     love.graphics.rectangle('fill', 0, 0,
-                            (screenWidth - gameBoardScreenDisplayWidth) / 2, screenHeight)
+                            (screenWidth - gameBoardScreenDisplayWidth) / 2 + screenOffsetX / 2, screenHeight)
     -- Right side
     love.graphics.rectangle('fill',
-                            (screenWidth - gameBoardScreenDisplayWidth) / 2 + gameBoardScreenDisplayWidth, 0,
-                            (screenWidth - gameBoardScreenDisplayWidth) / 2, screenHeight)
+                            (screenWidth - gameBoardScreenDisplayWidth) / 2 + gameBoardScreenDisplayWidth - screenOffsetX / 2, 0,
+                            (screenWidth - gameBoardScreenDisplayWidth) / 2 + screenOffsetX / 2, screenHeight)
 
     -- Hide screen offsets
+    -- Top
+    love.graphics.rectangle('fill', 0, 0, screenWidth, screenOffsetY / 2)
+    -- Bottom
+    love.graphics.rectangle('fill', 0, screenHeight - screenOffsetY / 2, screenWidth, screenOffsetY / 2)
+
 
     -- TODO Use love.graphics.setColor( red, green, blue, alpha ) and love.graphics.rectangle("fill", x, y, width, height ) to make edge of game board semi-opaque
 
