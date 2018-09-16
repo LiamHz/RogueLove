@@ -26,6 +26,10 @@ tileWidth = 16
 tileWidthScaleFactor = 0
 tileHeightScaleFactor = 0
 
+-- Screen Dimensions of gameBoard
+gameBoardScreenDisplayWidth = love.graphics.getWidth()
+gameBoardScreenDisplayHeight = love.graphics.getHeight()
+
 fullscreen = true
 
 screenOffsetX = 0
@@ -47,9 +51,6 @@ gameActors = {}
 
 local debug = true
 
--- Screen Dimensions of gameBoard
-local gameBoardScreenDisplayWidth = love.graphics.getWidth()
-local gameBoardScreenDisplayHeight = love.graphics.getHeight()
 
 -- Image storage
 local playerImg = nil
@@ -162,31 +163,8 @@ function love.draw(dt)
     -- Camera does not change position of UI elements
     Camera:unset()
 
-    -- Hide gameBoard that is not currently displayed
-    love.graphics.setColor(0, 0, 0, 10)
-    -- Left side
-    love.graphics.rectangle('fill', 0, 0,
-                            (screenWidth - gameBoardScreenDisplayWidth) / 2 + screenOffsetX / 2, screenHeight)
-    -- Right side
-    love.graphics.rectangle('fill',
-                            (screenWidth - gameBoardScreenDisplayWidth) / 2 + gameBoardScreenDisplayWidth - screenOffsetX / 2, 0,
-                            (screenWidth - gameBoardScreenDisplayWidth) / 2 + screenOffsetX / 2, screenHeight)
-
-    -- Hide screen offsets
-    -- Top
-    love.graphics.rectangle('fill', 0, 0, screenWidth, screenOffsetY / 2)
-    -- Bottom
-    love.graphics.rectangle('fill', 0, screenHeight - screenOffsetY / 2, screenWidth, screenOffsetY / 2)
-
-
-    -- TODO Use love.graphics.setColor( red, green, blue, alpha ) and love.graphics.rectangle("fill", x, y, width, height ) to make edge of game board semi-opaque
-
-    -- Make edges of board semi opaque
-
-    -- Make edges of board semi opaque
-
-    -- Reset LOVE colors to default
-    love.graphics.setColor(255, 255, 255, 255)
+    -- Hide edges of board and make edge tiles opaque
+    DrawUI:hideEdges()
 
     -- Draw UI (hearts, inventory, etc)
     DrawUI:drawUI(heartIcon, player.hp)
