@@ -9,8 +9,6 @@ end
 
 function AttackAction:attack(targetPos, damage)
 
-    -- TODO Visual indicator of health subtraction
-
     for actor in ipairs(gameActors) do
 
         -- Find target of attack and deal damage

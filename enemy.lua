@@ -21,8 +21,6 @@ function Enemy:initialize(actorType, xPos, yPos, energyThreshold, hp)
     id = id + 1
 end
 
--- TODO Display enemy health if it is less than max
-
 function Enemy:takeAction()
     self.energy = self.energy + 1
 
