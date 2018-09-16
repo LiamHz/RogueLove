@@ -31,6 +31,19 @@ function PlayerDecision:getDecision(xPos, yPos, damage, input)
     else
         -- Walk the direction of input
         xPos, yPos, actorCannotMove = WalkAction:walk(xPos, yPos, input)
+
+        -- Move camera to keep player centered
+        if actorCannotMove == false then
+            if input == 'up' then
+                Camera:move(0, (-screenHeight - screenOffsetY / 2) / gameBoardDisplayHeight)
+            elseif input == 'down' then
+                Camera:move(0, (screenHeight + screenOffsetY / 2) / gameBoardDisplayHeight)
+            elseif input == 'left' then
+                Camera:move((-screenWidth - screenOffsetX / 2) / gameBoardDisplayWidth, 0)
+            elseif input == 'right' then
+                Camera:move((screenWidth - screenOffsetX / 2)/ gameBoardDisplayWidth, 0)
+            end
+        end
     end
 
     return xPos, yPos, actorCannotMove
