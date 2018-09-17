@@ -11,7 +11,7 @@ function PlayerDecision:initialize()
     self.name = 'PlayerDecision'
 end
 
-function PlayerDecision:getDecision(xPos, yPos, damage, input)
+function PlayerDecision:getDecision(xPos, yPos, distanceFromCenterVertical, distanceFromCenterHorizontal, damage, input)
 
     -- Tile index is a single number from 0 to GB Height * GB Width
     local tileIndex = xPos + (yPos - 1) * gameBoardWidth
@@ -35,16 +35,32 @@ function PlayerDecision:getDecision(xPos, yPos, damage, input)
         -- Move camera to keep player centered
         if actorCannotMove == false then
             if input == 'up' then
-                Camera:move(0, -tileHeight * tileHeightScaleFactor)
+                distanceFromCenterVertical = distanceFromCenterVertical + 1
+                if distanceFromCenterVertical > 3 then
+                    Camera:move(0, -tileHeight * tileHeightScaleFactor)
+                    distanceFromCenterVertical = distanceFromCenterVertical - 1
+                end
             elseif input == 'down' then
-                Camera:move(0, tileHeight * tileHeightScaleFactor)
+                distanceFromCenterVertical = distanceFromCenterVertical - 1
+                if distanceFromCenterVertical < -3 then
+                    Camera:move(0, tileHeight * tileHeightScaleFactor)
+                    distanceFromCenterVertical = distanceFromCenterVertical + 1
+                end
             elseif input == 'left' then
-                Camera:move(-tileWidth * tileWidthScaleFactor, 0)
+                distanceFromCenterHorizontal = distanceFromCenterHorizontal - 1
+                if distanceFromCenterHorizontal < -3 then
+                    Camera:move(-tileWidth * tileWidthScaleFactor, 0)
+                    distanceFromCenterHorizontal = distanceFromCenterHorizontal + 1
+                end
             elseif input == 'right' then
-                Camera:move(tileWidth * tileWidthScaleFactor, 0)
+                distanceFromCenterHorizontal = distanceFromCenterHorizontal + 1
+                if distanceFromCenterHorizontal > 3 then
+                    Camera:move(tileWidth * tileWidthScaleFactor, 0)
+                    distanceFromCenterHorizontal = distanceFromCenterHorizontal - 1
+                end
             end
         end
     end
 
-    return xPos, yPos, actorCannotMove
+    return xPos, yPos, actorCannotMove, distanceFromCenterVertical, distanceFromCenterHorizontal
 end

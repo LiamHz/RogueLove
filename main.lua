@@ -1,23 +1,24 @@
 -- TODO_ List
 -- TODO Copy Crypt of the Necrodancer AIs (movement and attack patterns) for different enemies
 -- TODO Change enemy sprite based on hp
--- TODO Make camera only move when player move to a square near display edge
 -- TODO Display enemy health if it is less than max
 -- TODO Visual indicator of attack
 -- TODO Display gameover and make entire board semi-opaque on player death
 -- TODO Initialize camera to center on player
+-- TODO Fix DrawUI:hideEdges() when gameBoardDisplayWidth is an odd number
+-- TODO Make class to draw walls
 
 -- GLOBAL VARIABLES
 -- DO NOT RENAME
 
 -- The gameboard is larger than what is displayed
 -- gameBoard Dimensions
-gameBoardHeight = 20
-gameBoardWidth = 20
+gameBoardHeight = 40
+gameBoardWidth = 40
 
 -- gameBoard Display Dimensions
-gameBoardDisplayHeight = 10
-gameBoardDisplayWidth = 10
+gameBoardDisplayHeight = 12
+gameBoardDisplayWidth = 12
 
 -- Tile spritesheet dimensions
 tileHeight = 16
@@ -73,7 +74,7 @@ end
 
 
 -- Create game actors
-local player = Player:new('player', 11, 5, 1, 3)
+local player = Player:new('player', 13, 7, 1, 3)
 local e1 = Enemy:new('snake', 8, 2, 2, 1)
 local e2 = Enemy:new('snake', 10, 4, 2, 1)
 local e3 = Enemy:new('snake', 6, 4, 2, 1)

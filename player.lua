@@ -12,6 +12,10 @@ Player = class('Player', Actor)
 function Player:initialize(actorType, xPos, yPos, energyThreshold, hp)
     Actor.initialize(self, actorType, xPos, yPos, energyThreshold, hp)
 
+    -- Used to keep player centered with camera
+    self.distanceFromCenterHorizontal = 0
+    self.distanceFromCenterVertical = 0
+
     -- Mark actor's gameboard square as occupied
     gameBoard[self.tileIndexPos] = 'player'
 
@@ -32,7 +36,8 @@ function Player:takeAction()
         --     return 'playerCannotMove'
         -- end
 
-        self.xPos, self.yPos, actorCannotMove = PlayerDecision:getDecision(self.xPos, self.yPos, self.damage, self.input)
+        self.xPos, self.yPos, actorCannotMove, self.distanceFromCenterVertical, self.distanceFromCenterHorizontal
+            = PlayerDecision:getDecision(self.xPos, self.yPos, self.distanceFromCenterVertical, self.distanceFromCenterHorizontal, self.damage, self.input)
 
         -- Ask for new user input if player couldn't move
         -- i.e. walked into a wall
