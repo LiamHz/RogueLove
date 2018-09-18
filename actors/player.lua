@@ -1,5 +1,5 @@
 -- Import OOP library middleclass
-local class = require 'core.middleclass'
+local class = require 'lib.middleclass'
 
 local playerDecision = require 'actors.playerDecision'
 local PlayerDecision = PlayerDecision:new()

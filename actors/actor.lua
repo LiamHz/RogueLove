@@ -1,5 +1,5 @@
 -- Import OOP library middleclass
-local class = require 'core.middleclass'
+local class = require 'lib.middleclass'
 
 -- Command actions
 local action1 = require 'actions.walkaction'

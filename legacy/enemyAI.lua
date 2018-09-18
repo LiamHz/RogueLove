@@ -1,5 +1,5 @@
 -- Import OOP library middleclass
-local class = require 'core.middleclass'
+local class = require 'lib.middleclass'
 local randomDecision = require 'randomWalkDecision'
 
 -- Command actions

@@ -1,5 +1,5 @@
 -- Import OOP library middleclass
-local class = require 'core.middleclass'
+local class = require 'lib.middleclass'
 
 -- Inheritance
 local parent = require 'actors.enemy'
