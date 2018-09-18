@@ -1,8 +1,8 @@
 -- Import OOP library middleclass
-local class = require 'middleclass'
+local class = require 'core.middleclass'
 
 -- Inheritance
-local parent = require 'enemy'
+local parent = require 'actors.enemy'
 -- local grandparent = require 'actor'
 
 Snake = class('Snake', Enemy)

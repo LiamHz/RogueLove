@@ -1,9 +1,9 @@
 -- Import OOP library middleclass
-local class = require 'middleclass'
+local class = require 'core.middleclass'
 
 -- Command actions
-local action1 = require 'walkaction'
-local action2 = require 'attackaction'
+local action1 = require 'actions.walkaction'
+local action2 = require 'actions.attackaction'
 
 Actor = class('Actor')
 

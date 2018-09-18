@@ -16,7 +16,8 @@
 -- TODO Initialize camera to center on player
 -- TODO Fix DrawUI:hideEdges() when gameBoardDisplayWidth is an odd number
 
--- TODO Move takeAction() to Enemy.lua
+-- TODO Move takeAction() from snake.lua to enemy.lua
+-- TODO Move playerDecision.lua to player.lua
 
 -- GLOBAL VARIABLES
 -- DO NOT RENAME
@@ -68,14 +69,13 @@ local playerImg = nil
 local tiles = {}
 
 -- Actor classes
-local actorClass = require 'actor'
-local playerClass = require 'player'
-local snakeClass = require 'snake'
+local playerClass = require 'actors.player'
+local snakeClass = require 'actors.enemyTypes.snake'
 
 -- UI Classes
-local checkerboardClass = require 'drawTileCheckerboard'
-local uiClass = require 'drawUI'
-local camera = require 'camera'
+local checkerboardClass = require 'ui.drawTileCheckerboard'
+local uiClass = require 'ui.drawUI'
+local camera = require 'ui.camera'
 
 -- Populate and empty gameBoard
 for i = 1, gameBoardWidth * gameBoardHeight do

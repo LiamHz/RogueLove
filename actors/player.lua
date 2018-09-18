@@ -1,11 +1,11 @@
 -- Import OOP library middleclass
-local class = require 'middleclass'
+local class = require 'core.middleclass'
 
-local playerDecision = require 'playerDecision'
+local playerDecision = require 'actors.playerDecision'
 local PlayerDecision = PlayerDecision:new()
 
 -- Inheritance
-local parent = require 'actor'
+local parent = require 'actors.actor'
 
 Player = class('Player', Actor)
 

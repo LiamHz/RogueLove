@@ -1,5 +1,5 @@
 -- Import OOP library middleclass
-local class = require 'middleclass'
+local class = require 'core.middleclass'
 
 WalkAction = class('WalkAction')
 
