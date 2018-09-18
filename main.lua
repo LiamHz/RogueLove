@@ -1,12 +1,12 @@
 -- TODO_ List
 -- TODO Copy Crypt of the Necrodancer AIs (movement and attack patterns) for different enemies
--- TODO Change enemy sprite based on hp
--- TODO Display enemy health if it is less than max
 -- TODO Visual indicator of attack
+-- TODO Display enemy health if it is less than max
+-- TODO Change enemy sprite based on hp
 -- TODO Display gameover and make entire board semi-opaque on player death
+-- TODO Make class to draw walls
 -- TODO Initialize camera to center on player
 -- TODO Fix DrawUI:hideEdges() when gameBoardDisplayWidth is an odd number
--- TODO Make class to draw walls
 
 -- GLOBAL VARIABLES
 -- DO NOT RENAME
@@ -60,7 +60,7 @@ local tiles = {}
 -- Import actor class
 local actorClass = require 'actor'
 local playerClass = require 'player'
-local enemyClass = require 'enemy'
+local snakeClass = require 'snake'
 
 -- Classes
 local checkerboardClass = require 'drawTileCheckerboard'
@@ -74,11 +74,11 @@ end
 
 
 -- Create game actors
-local player = Player:new('player', 13, 7, 1, 3)
-local e1 = Enemy:new('snake', 8, 2, 2, 1)
-local e2 = Enemy:new('snake', 10, 4, 2, 1)
-local e3 = Enemy:new('snake', 6, 4, 2, 1)
-local e4 = Enemy:new('snake', 12, 8, 1, 1)
+local player = Player:new(13, 7)
+local e1 = Snake:new(8, 2)
+local e2 = Snake:new(10, 4)
+local e3 = Snake:new(6, 4)
+local e4 = Snake:new(12, 8)
 
 -- Initialize camera
 Camera = Camera:new()
