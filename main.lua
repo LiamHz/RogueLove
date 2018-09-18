@@ -1,12 +1,22 @@
 -- TODO_ List
+
+-- TODO File system restructure; Organize Lua classes by category (actors, ui etc)
+
 -- TODO Copy Crypt of the Necrodancer AIs (movement and attack patterns) for different enemies
+
 -- TODO Visual indicator of attack
 -- TODO Display enemy health if it is less than max
 -- TODO Change enemy sprite based on hp
+
 -- TODO Display gameover and make entire board semi-opaque on player death
+
 -- TODO Make class to draw walls
+-- TODO Implement procedural dungeon generation
+
 -- TODO Initialize camera to center on player
 -- TODO Fix DrawUI:hideEdges() when gameBoardDisplayWidth is an odd number
+
+-- TODO Move takeAction() to Enemy.lua
 
 -- GLOBAL VARIABLES
 -- DO NOT RENAME
@@ -57,12 +67,12 @@ local debug = true
 local playerImg = nil
 local tiles = {}
 
--- Import actor class
+-- Actor classes
 local actorClass = require 'actor'
 local playerClass = require 'player'
 local snakeClass = require 'snake'
 
--- Classes
+-- UI Classes
 local checkerboardClass = require 'drawTileCheckerboard'
 local uiClass = require 'drawUI'
 local camera = require 'camera'
