@@ -3,22 +3,21 @@ local class = require 'middleclass'
 
 -- Inheritance
 local parent = require 'enemy'
-local grandparent = require 'actor'
+-- local grandparent = require 'actor'
 
 Snake = class('Snake', Enemy)
 
 function Snake:initialize(xPos, yPos)
     Enemy.initialize(self, xPos, yPos)
 
-    self.xPos = xPos
-    self.yPos = yPos
+    -- self.xPos = xPos
+    -- self.yPos = yPos
     self.actorType = 'snake'
     self.hp = 1
     self.energyThreshold = 2
     self.damage = 1
 
     self.img = love.graphics.newImage('assets/snake.png')
-    -- print
 end
 
 function Snake:takeAction()
@@ -58,7 +57,7 @@ function Snake:getDecision()
     -- Tile index is a single number from 0 to GB Height * GB Width
     local tileIndex = self.xPos + (self.yPos - 1) * gameBoardWidth
 
-    -- Move down
+    -- Move up
     if self.actionIndex == 0 then
         if (gameBoard[tileIndex - gameBoardWidth] == 'player') then
             targetPos = tileIndex - gameBoardWidth
@@ -67,10 +66,10 @@ function Snake:getDecision()
             self.xPos, self.yPos, self.actorCannotMove = WalkAction:walk(self.xPos, self.yPos, 'up')
             self.actionIndex = (self.actionIndex + 1) % 2
         end
-    -- Move up
+    -- Move down
     elseif self.actionIndex == 1 then
         if (gameBoard[tileIndex + gameBoardWidth] == 'player') then
-            targetPos = tileIndex - gameBoardWidth
+            targetPos = tileIndex + gameBoardWidth
             AttackAction:attack(targetPos, self.damage)
         elseif (gameBoard[tileIndex + gameBoardWidth] == 0) then
             self.xPos, self.yPos, self.actorCannotMove = WalkAction:walk(self.xPos, self.yPos, 'down')
