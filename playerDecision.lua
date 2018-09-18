@@ -1,10 +1,6 @@
 -- Import OOP library middleclass
 local class = require 'middleclass'
 
--- Command actions
-local action1 = require 'walkaction'
-local action2 = require 'attackaction'
-
 PlayerDecision = class('PlayerDecision')
 
 function PlayerDecision:initialize()
