@@ -9,8 +9,13 @@ local parent = require 'actor'
 
 Player = class('Player', Actor)
 
-function Player:initialize(actorType, xPos, yPos, energyThreshold, hp)
-    Actor.initialize(self, actorType, xPos, yPos, energyThreshold, hp)
+function Player:initialize(xPos, yPos)
+    Actor.initialize(self, xPos, yPos)
+
+    self.actorType = 'player'
+    self.energyThreshold = 1
+    self.hp = 3
+    self.damage = 1
 
     -- Used to keep player centered with camera
     self.distanceFromCenterHorizontal = 0
@@ -18,10 +23,6 @@ function Player:initialize(actorType, xPos, yPos, energyThreshold, hp)
 
     -- Mark actor's gameboard square as occupied
     gameBoard[self.tileIndexPos] = 'player'
-
-    -- Add new actor to table of actors
-    table.insert(gameActors, self)
-    id = id + 1
 end
 
 function Player:takeAction()
