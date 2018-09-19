@@ -9,6 +9,8 @@ end
 
 function RandomMoveDecision:getRandomMove(xPos, yPos, jk)
     local direction = nil
+
+    ::getRandomNumber::
     local rand = love.math.random()
 
     -- Tile index is a single number from 0 to GB Height * GB Width
@@ -24,6 +26,8 @@ function RandomMoveDecision:getRandomMove(xPos, yPos, jk)
         direction = 'left'
     elseif (rand <= 1) and (gameBoard[tileIndex + 1] == 0) then
         direction = 'right'
+    else
+        goto getRandomNumber
     end
 
     return direction

@@ -90,9 +90,12 @@ end
 -- Create game actors
 local player = Player:new(13, 7)
 local e1 = Snake:new(14, 3)
-local e2 = Monkey:new(10, 4)
-local e3 = Elephant:new(16, 6)
-local e4 = Pig:new(12, 8)
+local e2 = Snake:new(12, 8)
+local e3 = Monkey:new(8, 12)
+local e4 = Monkey:new(10, 4)
+local e5 = Elephant:new(16, 6)
+local e6 = Pig:new(19, 12)
+local e7 = Pig:new(16, 18)
 
 
 -- Initialize camera

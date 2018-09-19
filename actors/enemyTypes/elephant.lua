@@ -31,13 +31,7 @@ function Elephant:takeAction()
         -- Store current xPos and yPos
         pastXPos, pastYPos = self.xPos, self.yPos
 
-        ::getEnemyDecision::
-
         self:getDecision()
-
-        -- if actorCannotMove == true then
-        --     goto getEnemyDecision
-        -- end
 
         -- Mark previous square as empty
         gameBoard[pastXPos + (pastYPos - 1) * gameBoardWidth] = 0
