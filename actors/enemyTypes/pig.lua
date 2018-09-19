@@ -1,3 +1,5 @@
+-- Enemy that moves randomly. Will attack player if they are adjacent
+
 -- Import OOP library middleClass
 local class = require 'lib.middleclass'
 
@@ -13,7 +15,7 @@ function Pig:initialize(xPos, yPos)
 
     self.actorType = 'pig'
     self.hp = 1
-    self.energyThreshold = 2
+    self.energyThreshold = 1
     self.damage = 1
 
     self.img = love.graphics.newImage('assets/pig.png')

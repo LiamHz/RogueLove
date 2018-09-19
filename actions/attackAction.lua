@@ -14,7 +14,7 @@ function AttackAction:attack(targetPos, damage)
         -- Find target of attack and deal damage
         if gameActors[actor].tileIndexPos == targetPos then
             gameActors[actor].hp = gameActors[actor].hp - damage
-            print('Name: ' .. gameActors[actor].actorType .. gameActors[actor].id .. ', HP: ' .. gameActors[actor].hp)
+            -- print('Name: ' .. gameActors[actor].actorType .. gameActors[actor].id .. ', HP: ' .. gameActors[actor].hp)
 
             -- If that actor died, remove them from table of game actors
             -- And mark that square as empty
