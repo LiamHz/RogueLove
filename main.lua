@@ -1,13 +1,11 @@
 -- TODO_ List
-
--- TODO File system restructure; Organize Lua classes by category (actors, ui etc)
-
 -- TODO Copy Crypt of the Necrodancer AIs (movement and attack patterns) for different enemies
 
 -- TODO Visual indicator of attack
 -- TODO Display enemy health if it is less than max
 -- TODO Change enemy sprite based on hp
 
+-- TODO Make splash screen
 -- TODO Display gameover and make entire board semi-opaque on player death
 
 -- TODO Make class to draw walls
@@ -71,6 +69,9 @@ local tiles = {}
 -- Actor classes
 local playerClass = require 'actors.player'
 local snakeClass = require 'actors.enemyTypes.snake'
+local pigClass = require 'actors.enemyTypes.pig'
+local elephantClass = require 'actors.enemyTypes.elephant'
+local monkeyClass = require 'actors.enemyTypes.monkey'
 
 -- UI Classes
 local checkerboardClass = require 'ui.drawTileCheckerboard'
@@ -86,9 +87,10 @@ end
 -- Create game actors
 local player = Player:new(13, 7)
 local e1 = Snake:new(8, 2)
-local e2 = Snake:new(10, 4)
-local e3 = Snake:new(6, 4)
-local e4 = Snake:new(12, 8)
+local e2 = Monkey:new(10, 4)
+local e3 = Elephant:new(16, 6)
+local e4 = Pig:new(12, 8)
+
 
 -- Initialize camera
 Camera = Camera:new()
@@ -107,9 +109,6 @@ function love.load(arg)
     screenWidth = love.graphics.getWidth()
     screenHeight = love.graphics.getHeight()
 
-    -- Screen dimensions are often not divisible by tileHeight/tileWidth
-    -- screenOffsetX = math.floor(screenWidth / tileWidth)
-    -- screenOffsetY = math.floor(screenHeight / tileHeight)
     screenOffsetX = screenWidth / tileWidth
     screenOffsetY = screenHeight / tileHeight
 
