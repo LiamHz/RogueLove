@@ -1,16 +1,17 @@
--- Enemy that alternates moving up or down
-
 -- Import OOP library middleclass
 local class = require 'lib.middleclass'
 
 -- Inheritance
 local parent = require 'actors.enemy'
+-- local grandparent = require 'actor'
 
 Snake = class('Snake', Enemy)
 
 function Snake:initialize(xPos, yPos)
     Enemy.initialize(self, xPos, yPos)
 
+    -- self.xPos = xPos
+    -- self.yPos = yPos
     self.actorType = 'snake'
     self.hp = 1
     self.energyThreshold = 2
