@@ -1,3 +1,5 @@
+-- Enemy that altenates between movng up and down
+
 -- Import OOP library middleclass
 local class = require 'lib.middleclass'
 
@@ -65,6 +67,8 @@ function Snake:getDecision()
         elseif (gameBoard[tileIndex - gameBoardWidth] == 0) then
             self.xPos, self.yPos, self.actorCannotMove = WalkAction:walk(self.xPos, self.yPos, 'up')
             self.actionIndex = (self.actionIndex + 1) % 2
+        else
+            self.actionIndex = (self.actionIndex + 1) % 2
         end
     -- Move down
     elseif self.actionIndex == 1 then
@@ -73,6 +77,8 @@ function Snake:getDecision()
             AttackAction:attack(targetPos, self.damage)
         elseif (gameBoard[tileIndex + gameBoardWidth] == 0) then
             self.xPos, self.yPos, self.actorCannotMove = WalkAction:walk(self.xPos, self.yPos, 'down')
+            self.actionIndex = (self.actionIndex + 1) % 2
+        else
             self.actionIndex = (self.actionIndex + 1) % 2
         end
     end

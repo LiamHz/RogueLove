@@ -1,4 +1,4 @@
--- Enemy that alternates moving up or down
+-- Enemy that moves in a clockwise pattern
 
 -- Import OOP library middleclass
 local class = require 'lib.middleclass'
@@ -64,6 +64,8 @@ function Monkey:getDecision()
         elseif (gameBoard[tileIndex - gameBoardWidth + 1] == 0) then
             self.xPos, self.yPos, self.actorCannotMove = WalkAction:walk(self.xPos, self.yPos, 'up-right')
             self.actionIndex = (self.actionIndex + 1) % 4
+        else
+            self.actionIndex = (self.actionIndex + 1) % 2
         end
     -- Move down-right
     elseif self.actionIndex == 1 then
@@ -73,6 +75,8 @@ function Monkey:getDecision()
         elseif (gameBoard[tileIndex + gameBoardWidth + 1] == 0) then
             self.xPos, self.yPos, self.actorCannotMove = WalkAction:walk(self.xPos, self.yPos, 'down-right')
             self.actionIndex = (self.actionIndex + 1) % 4
+        else
+            self.actionIndex = (self.actionIndex + 1) % 2
         end
     -- Move down-left
     elseif self.actionIndex == 2 then
@@ -82,6 +86,8 @@ function Monkey:getDecision()
         elseif (gameBoard[tileIndex + gameBoardWidth - 1] == 0) then
             self.xPos, self.yPos, self.actorCannotMove = WalkAction:walk(self.xPos, self.yPos, 'down-left')
             self.actionIndex = (self.actionIndex + 1) % 4
+        else
+            self.actionIndex = (self.actionIndex + 1) % 2
         end
     -- Move up-left
     elseif self.actionIndex == 3 then
@@ -91,6 +97,8 @@ function Monkey:getDecision()
         elseif (gameBoard[tileIndex - gameBoardWidth - 1] == 0) then
             self.xPos, self.yPos, self.actorCannotMove = WalkAction:walk(self.xPos, self.yPos, 'up-left')
             self.actionIndex = (self.actionIndex + 1) % 4
+        else
+            self.actionIndex = (self.actionIndex + 1) % 2
         end
     end
 end

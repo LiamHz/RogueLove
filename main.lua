@@ -1,5 +1,9 @@
 -- TODO_ List
--- TODO Copy Crypt of the Necrodancer AIs (movement and attack patterns) for different enemies
+-- TODO Copy Crypt of the Necrodancer AIs: Skeleton and Zombie
+-- TODO Copy mini-bosses from CotN: Direbat, Minotaur, Nightmare (Dark Horse), Ogre
+
+-- TODO Make loot drops
+-- TODO Make equipment system for weapons
 
 -- TODO Visual indicator of attack
 -- TODO Display enemy health if it is less than max
@@ -12,9 +16,7 @@
 -- TODO Implement procedural dungeon generation
 
 -- TODO Initialize camera to center on player
--- TODO Fix DrawUI:hideEdges() when gameBoardDisplayWidth is an odd number
 
--- TODO Move takeAction() from snake.lua to enemy.lua
 -- TODO Move playerDecision.lua to player.lua
 
 -- GLOBAL VARIABLES
@@ -26,6 +28,7 @@ gameBoardHeight = 40
 gameBoardWidth = 40
 
 -- gameBoard Display Dimensions
+-- Note:Currently must be an even number
 gameBoardDisplayHeight = 12
 gameBoardDisplayWidth = 12
 
@@ -86,7 +89,7 @@ end
 
 -- Create game actors
 local player = Player:new(13, 7)
-local e1 = Snake:new(8, 2)
+local e1 = Snake:new(14, 3)
 local e2 = Monkey:new(10, 4)
 local e3 = Elephant:new(16, 6)
 local e4 = Pig:new(12, 8)
