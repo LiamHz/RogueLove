@@ -18,6 +18,20 @@ function WalkAction:walk(xPos, yPos, input)
         xPos = xPos - 1
     elseif (input == 'right') and (xPos < gameBoardWidth) then
         xPos = xPos + 1
+
+    -- Diaganol movement
+    elseif (input == 'up-right') then
+        yPos = yPos - 1
+        xPos = xPos + 1
+    elseif (input == 'up-left') then
+        yPos = yPos - 1
+        xPos = xPos - 1
+    elseif (input == 'down-right') then
+        yPos = yPos + 1
+        xPos = xPos + 1
+    elseif (input == 'down-left') then
+        yPos = yPos + 1
+        xPos = xPos - 1
     else
         print("Actor cannot move, asking for new input")
         actorCannotMove = true
