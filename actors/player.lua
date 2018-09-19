@@ -1,9 +1,6 @@
 -- Import OOP library middleclass
 local class = require 'lib.middleclass'
 
-local playerDecision = require 'actors.playerDecision'
-local PlayerDecision = PlayerDecision:new()
-
 -- Inheritance
 local parent = require 'actors.actor'
 
@@ -32,13 +29,7 @@ function Player:takeAction()
 
         pastXPos, pastYPos = self.xPos, self.yPos
 
-        -- If player can't move with current input ask for new input
-        -- if(walk:walk(self.xPos, self.yPos, self.input) == 'playerCannotMove') then
-        --     return 'playerCannotMove'
-        -- end
-
-        self.xPos, self.yPos, actorCannotMove, self.distanceFromCenterVertical, self.distanceFromCenterHorizontal
-            = PlayerDecision:getDecision(self.xPos, self.yPos, self.distanceFromCenterVertical, self.distanceFromCenterHorizontal, self.damage, self.input)
+        actorCannotMove = self:getDecision()
 
         -- Ask for new user input if player couldn't move
         -- i.e. walked into a wall
@@ -60,4 +51,58 @@ function Player:takeAction()
     end
 
     return false
+end
+
+-- Determine player action based on input
+function Player:getDecision()
+    -- Tile index is a single number from 0 to GB Height * GB Width
+    local tileIndex = self.xPos + (self.yPos - 1) * gameBoardWidth
+
+    if (self.input == 'up') and (gameBoard[tileIndex - gameBoardWidth] == 'enemy') then
+        targetPos = tileIndex - gameBoardWidth
+        AttackAction:attack(targetPos, self.damage)
+    elseif (self.input == 'down') and (gameBoard[tileIndex + gameBoardWidth] == 'enemy') then
+        targetPos = tileIndex + gameBoardWidth
+        AttackAction:attack(targetPos, self.damage)
+    elseif (self.input == 'left') and (gameBoard[tileIndex - 1] == 'enemy') then
+        targetPos = tileIndex - 1
+        AttackAction:attack(targetPos, self.damage)
+    elseif (self.input == 'right') and (gameBoard[tileIndex + 1] == 'enemy') then
+        targetPos = tileIndex + 1
+        AttackAction:attack(targetPos, self.damage)
+    else
+        -- Walk the direction of input
+        self.xPos, self.yPos, actorCannotMove = WalkAction:walk(self.xPos, self.yPos, self.input)
+
+        -- Move camera to keep player centered
+        if actorCannotMove == false then
+            if self.input == 'up' then
+                self.distanceFromCenterVertical = self.distanceFromCenterVertical + 1
+                if self.distanceFromCenterVertical > 3 then
+                    Camera:move(0, -tileHeight * tileHeightScaleFactor)
+                    self.distanceFromCenterVertical = self.distanceFromCenterVertical - 1
+                end
+            elseif self.input == 'down' then
+                self.distanceFromCenterVertical = self.distanceFromCenterVertical - 1
+                if self.distanceFromCenterVertical < -3 then
+                    Camera:move(0, tileHeight * tileHeightScaleFactor)
+                    self.distanceFromCenterVertical = self.distanceFromCenterVertical + 1
+                end
+            elseif self.input == 'left' then
+                self.distanceFromCenterHorizontal = self.distanceFromCenterHorizontal - 1
+                if self.distanceFromCenterHorizontal < -3 then
+                    Camera:move(-tileWidth * tileWidthScaleFactor, 0)
+                    self.distanceFromCenterHorizontal = self.distanceFromCenterHorizontal + 1
+                end
+            elseif self.input == 'right' then
+                self.distanceFromCenterHorizontal = self.distanceFromCenterHorizontal + 1
+                if self.distanceFromCenterHorizontal > 3 then
+                    Camera:move(tileWidth * tileWidthScaleFactor, 0)
+                    self.distanceFromCenterHorizontal = self.distanceFromCenterHorizontal - 1
+                end
+            end
+        end
+    end
+
+    return actorCannotMove
 end
